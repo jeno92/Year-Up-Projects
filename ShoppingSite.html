@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Smith & Oliver's</title>
+  <link rel="stylesheet" type="text/css" href="CartStyle.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <h1>Smith & Oliver's</h1>
+
+
+  <table border="5">
+    <thead>
+      <th colspan="2"></th>
+    </thead>
+    <tbody>
+      <tr>
+
+        <td><img src="https://cdn2.pcadvisor.co.uk/cmsdata/reviews/3632948/hp-255-g4-review-front-corner_thumb800.jpg" width="330"></td>
+        <td>
+          <h2>Dell Laptop</a></h2>
+          <p>We sell laptops of all brands with holiday savings for a <em>limited time</em> only.</p>
+          <button class="addOne">Add To Cart</button>
+          <button class="removeOne">Remove From Cart</button>
+          <h4>$299.99</h4>
+        </td>
+      </tr>
+      <tr>
+        <td><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTn_aylAOpcFcSZCt0-XwzBi-LoUVG3U6QOd5nYgFjy2EwqXXk7AA" width="330">
+          <td>
+            <h2>Samsung Galaxy</h2>
+            <p>The large assortment of celluar devices that we have are almost endless. You can also trade in your phone for a phone of equal value.</p>
+            <button class="addOne">Add To Cart</button>
+            <button class="removeOne">Remove From Cart</button>
+            <h4>$499.99</h4>
+
+          </td>
+        </td>
+      </tr>
+      <tr>
+        <td><img src="https://s-media-cache-ak0.pinimg.com/236x/3d/0c/43/3d0c4327a10a2a5febbc0386f30cc4aa.jpg" width="330" height="230"></td>
+        <td>
+          <h2>Oval King Sized Couch</h2>
+          <p>Savings of up to 50% on home furniture!</p>
+          <button class="addOne">Add To Cart</button>
+          <button class="removeOne">Remove From Cart</button>
+          <h4>$1,299.99</h4>
+        </td>
+      </tr>
+      <tr>
+        <td><img src="http://www.depotkitchen.com/wp-content/uploads/2015/04/kitchen-appliances-1-300x171.jpg" width="330" height="230"></td>
+        <td>
+          <h2>Breville Juicer</h2>
+          <p>We have all your cooking needs in our store and we are having a sale </p>
+          <button class="addOne">Add To Cart</button>
+          <button class="removeOne">Remove From Cart</button>
+          <h4>$279.99</h4>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h1 id="cartHeader">Shopping Cart</h1>
+  <textarea rows="12" cols="48" id="cartItems"></textarea>  
+  <button id="clearCart" onclick="clearCart()">Clear Cart</button>
+  <br>
+  <h4>TOTAL</h4>
+<button id="getTotal" onclick="calTotalAndTax()">Get Total</button>
+  <textarea rows="4" cols="8" id="cartTotal"></textarea>
+
+  <h2></h2>
+  <p></p>
+  <ul>
+    <li>By Elijah Smith</li>
+    <br>
+    <li> and Jenessa Oliver</li>
+  </ul>
+  <script>
+    var merch;
+    var cart = [];
+    
+    $(document).ready(function(){
+      $(".addOne").click(function(){
+    
+        var foundItem = false;
+        for (var i = 0; i < cart.length;i++)
+        {
+        	if (cart[i].name === $(this).prev().prev().text())
+        	{
+              cart[i].quantity++;
+              cart[i].price = cart[i].price +  lookupPrice(cart[i].name);
+              foundItem = true;
+              break;   
+        	}
+        }
+    
+        if (!foundItem)
+        {
+            var item = {};
+            var itemName = $(this).prev().prev().text();
+            item.name = itemName;
+            item.price = lookupPrice(itemName);
+            item.quantity = 1;
+            cart.push(item);
+        }
+    
+        displayCart();
+    	});
+      
+       $(".removeOne").click(function()
+       {
+        var itemName = $(this).prev().prev().prev().text();
+        removeFromCart(itemName);
+       });
+    
+      
+    });
+    
+    
+    function lookupPrice(name)
+    {
+    	var price = 0;
+    
+    	for (var item in store)
+    	{
+    		var itemObject = store[item];
+    		if (itemObject.name === name)
+    		{
+                price = itemObject.price;
+                break;
+    		}
+    	}
+    
+    	return price;
+    }
+    
+    var store = { //array of objects sold
+      dell: {
+        name: "Dell Laptop",
+        price: 299.99
+    },
+      samsung: {
+        name: "Samsung Galaxy",
+        price: 499.99
+      },
+      couch:{
+        name:"Oval King Sized Couch",
+        price: 1299.99
+      },
+      juicer:{
+        name:"Breville Juicer",
+        price: 279.99
+      }
+     
+    }
+    
+    function add(){
+      cart.push(merch);//this function adds the item to the cart
+    }
+    
+    function displayCart(){
+      var cartBox = document.getElementById("cartItems");
+      cartBox.value = "";
+    
+      for (var i = 0; i < cart.length; i++)
+      {
+          cartBox.value += cart[i].name + " - Quantity: " + cart[i].quantity + "\n";
+      }
+    }
+ 
+    function calTotalAndTax()
+    {
+      var total = 0;
+      
+      for (var i = 0; i < cart.length; i++)
+        {
+          total = total + cart[i].price * cart[i].quantity;
+        }
+      
+      var tax = total * 7.5/100;
+      var finalTotal = tax + total;
+      finalTotal = finalTotal.toFixed(2);
+      $("#cartTotal").val("$" + finalTotal);
+      
+    }
+    
+    function removeFromCart(itemName)
+    {
+       for (var i = 0; i < cart.length; i++)
+         {
+            if (cart[i].name === itemName)
+              {
+                cart[i].quantity--;
+                
+                if (cart[i].quantity === 0)
+                  {
+                    cart.splice(i, 1);
+                  }
+                
+                	break;
+              }
+         }
+      
+      	displayCart();
+    }
+    function clearCart(){
+      cart=[];
+      displayCart();
+    }
+    
+    
+
+  </script>
+
+</body>
+
+</html>

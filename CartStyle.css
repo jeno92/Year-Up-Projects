@@ -1,0 +1,58 @@
+body {
+background-color: #ffffff;
+font-family:Georgia;
+ }
+#navBar {
+  text-align: center;
+  color: black;
+  font-size: 20px;
+}
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+table {
+  border-color: white;
+
+}
+ul {
+  list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #white;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+p {
+  font-size: 20px;
+}
+em {
+  font
+}
+.active {
+    background-color: navy;
+}
+h1{
+  color: black;
+}
+
+img{
+  width: 330px;
+  height: 230px;
+}
+#cartHeader{
+  text-align: center;
+  text-decoration:underline;
+  color:black;
+}
